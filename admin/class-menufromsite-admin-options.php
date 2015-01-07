@@ -31,9 +31,8 @@ class mfs_options_page {
 		
 	}
 	
-	/*
-		Error checking/validation.
-	*/
+
+	// Error checking/validation.
 	public function validate_pluginvalues( $input ) {
 			
 		return $input;
