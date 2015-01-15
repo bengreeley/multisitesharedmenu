@@ -16,5 +16,8 @@ Allows users in a WordPress multisite network pull in a menu from another site i
 Simply copy the folder into your wp-content/plugins directory and activate for the sites you wish to use plugin on. Once activated, you can configure the menus under the 'options' section of the WordPress dashboard.
 
 # Changelog
+<h3>1.1</h3>
+Fixed bugs relating to registered menu locations.
+
 <h3>1.0</h3>
 Initial Release

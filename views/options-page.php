@@ -45,7 +45,8 @@
 			<th scope="row"><label for="mfs_override_menu_location">Menu Location:</span></th>
 			<td>';
 			
-			$locations = get_nav_menu_locations();
+			
+			$locations = get_registered_nav_menus();
 			$locationKeys = array_keys( $locations );
 			
 			if( count($locations) ) {
