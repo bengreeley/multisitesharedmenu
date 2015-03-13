@@ -7,7 +7,7 @@ class MasterSharedMenu {
 
 	public function __construct() {
 		$this->plugin_name = 'multisitesharedmenu';
-		$this->version = '1.0.0';
+		$this->version = '1.1';
 
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
