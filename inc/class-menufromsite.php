@@ -29,6 +29,11 @@ class MasterSharedMenu {
 		}
 		
 		$navigation_affected = $mfsSettings['destinationMenuLocation'];
+		
+		if( !is_array( $navigation_affected ) ) {
+			$navigation_affected = array( $navigation_affected ); // backwards-compatibility
+		} 
+		
 		// nav menus now stored as an array, loop through each item
 		foreach ( $navigation_affected as $menu) {
 			if (isset( $menu_object )) {
