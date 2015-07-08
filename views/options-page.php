@@ -1,7 +1,8 @@
 <div class="wrap">
 			
 	<h2>Multisite Shared Menu Settings</h2>
-	<p>Select the source site and source menu that will be used in the same menu location.</p>
+	<p>Select the site containing the menu(s) you wish to display and select which menus to bring in.</p>
+	<p>NOTE: both sites should use the same theme to ensure menu location compatibility.</p>
 		
 	<form method="post" action="options.php">	    
 		<table class="form-table">
@@ -21,7 +22,6 @@
 			
 			
 			echo '<option value="">-- Select --</option>';
-			
 			foreach( $blogList as $blogTemp ) {
 				if( $blogTemp['blog_id'] != get_current_blog_id() ) {
 					
@@ -31,7 +31,7 @@
 						echo ' selected ';
 					}
 					
-					echo '>'.$blogTemp['path'].'</option>';
+					echo '>'.$blogTemp['domain'].'</option>';
 					
 				}
 			}
@@ -48,22 +48,20 @@
 			
 			$locations = get_registered_nav_menus();
 			$locationKeys = array_keys( $locations );
-			
+
 			if( count($locations) ) {
-				echo '<select value="" name="mfs_override_menu_location" id="mfs_override_menu_location">';
-				echo '<option value="">-- Select --</option>';
-				
+				$option_count = 1;
 				foreach ($locationKeys as $curLocation ) {
-					if ( esc_attr( get_option('mfs_override_menu_location') ) == $curLocation ) {
-						$selected = true;
+					if ( in_array ( $curLocation, get_option('mfs_override_menu_location') ) ) {
+						$checked = true;
 					}
 					else {
-						$selected = false;
+						$checked = false;
 					}
 					
-					echo '<option value="'. $curLocation .'"' . ($selected === true ? ' selected ' : '' ) . '>' . $curLocation . '</option>';
+					echo '<input type="checkbox" name="mfs_override_menu_location['.$option_count.']" value="'. $curLocation .'"' . ($checked == true ? ' checked="checked" ' : '' ) . '><label for="mfs_override_menu_location['.$option_count.']">' . $curLocation . '</label><br/>';
+					$option_count ++;
 				}
-				echo '</select>';
 			}
 			else {
 				// No menu locations
