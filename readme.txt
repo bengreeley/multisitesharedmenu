@@ -1,6 +1,6 @@
 === Multisite Shared Menu ===
 Contributors: ben.greeley, Third Boxcar
-Tags: menus, multisite, navigation
+Tags: widget, menu, menus, multisite, navigation
 Requires at least: 3.9
 Tested up to: 4.1
 Stable tag: 1.1
