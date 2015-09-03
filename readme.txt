@@ -10,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Use navigation menus from another multisite blog on the same network to achieve a universal common navigation area.
 
 == Description ==
-Allows users in a WordPress multisite network pull in menus from a main site in order to achieve universal navigation or shared navigation without needing to manually recreate menus. 
+Allows administrators in a WordPress multisite network pull in menus from a main site in order to achieve universal navigation or shared navigation without needing to manually recreate menus. 
 
 Plugin is intended for WordPress Multisite environment for plugin to function properly and use the same theme to ensure menu name compatibility.
 
