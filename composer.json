@@ -1,0 +1,22 @@
+{
+    "name": "wordpress/multisitesharedmenu",
+    "type": "wordpress-plugin",
+    "authors": [
+      {
+        "name": "Ben Greeley",
+        "email": "ben.greeley@gmail.com"
+      }
+    ],
+    "require": {
+      "php": ">=7.0",
+      "haydenpierce/class-finder": "^0.4.3"
+    },
+    "autoload": {
+      "psr-4": {
+        "MultisiteSharedMenu\\": "includes/classes/"
+      }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    }
+}
