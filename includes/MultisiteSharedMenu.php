@@ -3,92 +3,118 @@
 namespace MultisiteSharedMenuPlugin;
 
 class MultisiteSharedMenu {
-	protected $loader;
-	protected $plugin_name;
-	protected $version;
-
+	
 	public function __construct() {
-
-		$this->plugin_name = 'multisitesharedmenu';
-		$this->version = MULTISITE_SHARED_MENU_PLUGIN_VERSION;
-
-		$this->define_admin_hooks();
-		$this->define_public_hooks();
+		$this->register_admin_hooks();
+		$this->register_public_hooks();
 	}
 
-	private function define_admin_hooks() {
+	/**
+	 * Register hooks needed for the admin
+	 *
+	 * @return void
+	 */
+	private function register_admin_hooks() {
 		register_activation_hook( __FILE__,  [ $this, 'activate_plugin' ] );
 		register_deactivation_hook( __FILE__, [ $this, 'deactivate_plugin' ] );
 
 		$admin_options = new AdminOptions();
 	}
 
-	private function define_public_hooks() {
-		add_filter( 'pre_wp_nav_menu' , array( $this, 'menuswitch_check'), 10, 2 );
-		add_filter( 'wp_nav_menu_items', array( $this, 'check_restore_blog_menu' ), 10, 2 );
+	/**
+	 * Register hooks needed for the frontend menu
+	 *
+	 * @return void
+	 */
+	private function register_public_hooks() {
+		add_filter( 'pre_wp_nav_menu' , [ $this, 'maybe_switch_to_site_menu' ], 10, 2 );
+		add_filter( 'wp_nav_menu_items', [ $this, 'check_restore_blog_menu' ], 10, 2 );
 	}
 
-	// Checks if options set to switch menu. If so, switch to the appropriate site and change the menu to load the desired menu....
-	public function menuswitch_check( $a, $menu_object ) {
+	/**
+	 * Switches a navigation menu to a different site's menu if the menu is set in the shared menu settings and we are
+	 * loading the menu location.
+	 *
+	 * @param $a
+	 * @param $menu_object
+	 * @return void
+	 */
+	public function maybe_switch_to_site_menu( $a, $menu_object ) {
 		
-		if( !( $mfsSettings = $this->validate_mfs_set() )) {
+		$multisite_shared_menu_settings = $this->get_saved_menu_settings();
+
+		if ( ! isset( $menu_object ) ) {
+			return;
+		}
+
+		if ( empty( $multisite_shared_menu_settings ) ) {
 			return false;
 		}
 		
-		$navigation_affected = $mfsSettings['destinationMenuLocation'];
+		$navigation_locations = $multisite_shared_menu_settings['destinationMenuLocation'];
 		
-		if( !is_array( $navigation_affected ) ) {
-			$navigation_affected = array( $navigation_affected ); // backwards-compatibility
+		if( ! is_array( $navigation_locations ) ) {
+			$navigation_locations = array( $navigation_locations ); // backwards-compatibility
 		} 
 		
-		// nav menus now stored as an array, loop through each item
-		foreach ( $navigation_affected as $menu) {
-			if (isset( $menu_object )) {
-				if( $menu == $menu_object->theme_location ) {
-					$switchSite = get_blog_details($mfsSettings['sourceSiteID']);
-					switch_to_blog ($switchSite->blog_id );
-				}
+		foreach ( $navigation_locations as $menu_location ) {
+			
+			if ( $menu_location === $menu_object->theme_location ) {
+				$navigation_source_site = get_blog_details( $multisite_shared_menu_settings['sourceSiteID'] );
+				switch_to_blog ( $navigation_source_site->blog_id );
+				break;
 			}
+			
 		}
 		return;
 	}
 	
 	// Switch back to the current blog/site if plugin settings were used.
 	public function check_restore_blog_menu($items, $args) {
+		if ( empty( $this->get_saved_menu_settings() ) ) {
+			return;
+		}
+
 		restore_current_blog();
 		return $items;
 	}
 	
-	// Returns false if the settings have not been set or there are invalid values saved. Returns array of values otherwise.
-	private function validate_mfs_set() {
+	/**
+	 * Retrives the Multisite Shared Menu settings in the parsed format
+	 *
+	 * @return boolean - empty array if settings are not set or are invalid, array of values otherwise
+	 */
+	private function get_saved_menu_settings() {
 		
-		$sourceSiteID = get_option('mfs_override_site_id');
-		$destinationMenuLocation = get_option( 'mfs_override_menu_location' );
+		$source_site_id            = get_option('mfs_override_site_id');
+		$destination_menu_location = get_option( 'mfs_override_menu_location' );
 
-		if(( !strlen( $sourceSiteID ) ||
-				empty( $destinationMenuLocation ) ||
-				!is_numeric ($sourceSiteID ))) {
-					
-			return false;
+		if (
+			empty( $source_site_id ) ||
+			empty( $destination_menu_location ) ||
+			! is_numeric ( $source_site_id ) 
+		) {
+			return [];
 		}
 
-		return array( 'sourceSiteID' => $sourceSiteID, 'destinationMenuLocation' => $destinationMenuLocation );
+		return [ 
+			'sourceSiteID'            => $source_site_id, 
+			'destinationMenuLocation' => $destination_menu_location,
+		];
 	}
 
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
-
-	public function get_version() {
-		return $this->version;
-	}
-
+	/**
+	 * Functionality to be run on plugin activation
+	 *
+	 * @return void
+	 */
 	public function activate_plugin() {
 		
-		if ( ! function_exists( 'is_multisite' ) ) {
+		// If the site isn't multisite, output a warning to the user that the plugin won't work
+		if ( ! function_exists( 'is_multisite' ) || ! is_multisite() ) {
 			add_action( 'admin_notices', function() { ?>
 				<div id="warning" class="updated fade">
-					<p><strong><?php esc_html__( 'Multisite Shared Menu requires WordPress multisite to be configured.', 'multisite-shared-menu' );?></strong></p>
+					<p><strong><?php esc_html_e( 'Multisite Shared Menu requires WordPress multisite to be configured.', 'multisite-shared-menu' );?></strong></p>
 				</div><?php
 			} );
 			
@@ -96,6 +122,11 @@ class MultisiteSharedMenu {
 		}
 	}
 
+	/**
+	 * Functions for deactivating the plugin
+	 *
+	 * @return void
+	 */
 	public function deactivate_plugin() {
 		unregister_setting( 'menufromsite-group', 'mfs_override_menu_location' );
 	}
