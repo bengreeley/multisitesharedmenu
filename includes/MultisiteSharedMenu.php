@@ -10,17 +10,17 @@ class MultisiteSharedMenu {
 	public function __construct() {
 
 		$this->plugin_name = 'multisitesharedmenu';
-		$this->version = '1.2';
+		$this->version = MULTISITE_SHARED_MENU_PLUGIN_VERSION;
 
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
 
 	private function define_admin_hooks() {
-		$admin_options = new AdminOptions();
-
 		register_activation_hook( __FILE__,  [ $this, 'activate_plugin' ] );
 		register_deactivation_hook( __FILE__, [ $this, 'deactivate_plugin' ] );
+
+		$admin_options = new AdminOptions();
 	}
 
 	private function define_public_hooks() {
@@ -58,13 +58,13 @@ class MultisiteSharedMenu {
 		return $items;
 	}
 	
-	//Returns false if the settings have not been set or there are invalid values saved. Returns array of values otherwise.
+	// Returns false if the settings have not been set or there are invalid values saved. Returns array of values otherwise.
 	private function validate_mfs_set() {
 		
 		$sourceSiteID = get_option('mfs_override_site_id');
 		$destinationMenuLocation = get_option( 'mfs_override_menu_location' );
 
-		if(( 	!strlen( $sourceSiteID ) ||
+		if(( !strlen( $sourceSiteID ) ||
 				empty( $destinationMenuLocation ) ||
 				!is_numeric ($sourceSiteID ))) {
 					
