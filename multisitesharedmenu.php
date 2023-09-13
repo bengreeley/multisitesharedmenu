@@ -37,4 +37,3 @@ define( 'MULTISITE_SHARED_MENU_PLUGIN_DIST_PATH', MULTISITE_SHARED_MENU_PLUGIN_P
 require_once MULTISITE_SHARED_MENU_PLUGIN_PATH . 'vendor/autoload.php';
 
 new MultisiteSharedMenu();
-

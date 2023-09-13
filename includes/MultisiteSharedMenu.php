@@ -19,6 +19,7 @@ class MultisiteSharedMenu {
 		register_deactivation_hook( __FILE__, [ $this, 'deactivate_plugin' ] );
 
 		$admin_options = new AdminOptions();
+		$admin_options->register();
 	}
 
 	/**

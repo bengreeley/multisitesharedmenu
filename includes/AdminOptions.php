@@ -8,6 +8,9 @@ namespace MultisiteSharedMenuPlugin;
 class AdminOptions {
 	
 	public function __construct() {
+	}
+
+	public function register() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_pluginfields') );
 	}
