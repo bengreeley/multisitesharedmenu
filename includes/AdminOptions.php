@@ -1,6 +1,6 @@
 <?php
 /** 
- * Defines plugin options page and fields.
+ * Admin menu options for the Multisite Shared Menu plugin to allow the end user to set the specific menus and options to use.
  */
 
 namespace MultisiteSharedMenuPlugin;

@@ -30,6 +30,7 @@ class MultisiteSharedMenu {
 
 	// Checks if options set to switch menu. If so, switch to the appropriate site and change the menu to load the desired menu....
 	public function menuswitch_check( $a, $menu_object ) {
+		
 		if( !( $mfsSettings = $this->validate_mfs_set() )) {
 			return false;
 		}
@@ -45,7 +46,7 @@ class MultisiteSharedMenu {
 			if (isset( $menu_object )) {
 				if( $menu == $menu_object->theme_location ) {
 					$switchSite = get_blog_details($mfsSettings['sourceSiteID']);
-					switch_to_blog($switchSite->blog_id);
+					switch_to_blog ($switchSite->blog_id );
 				}
 			}
 		}
