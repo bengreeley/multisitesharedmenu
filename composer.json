@@ -13,7 +13,7 @@
     },
     "autoload": {
       "psr-4": {
-        "MultisiteSharedMenu\\": "includes/classes/"
+        "MultisiteSharedMenu\\": "includes/"
       }
     },
     "require-dev": {

@@ -21,7 +21,7 @@ class ComposerStaticInitc4a016fead862bd35e25dc7707b61199
     public static $prefixDirsPsr4 = array (
         'MultisiteSharedMenu\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/includes/classes',
+            0 => __DIR__ . '/../..' . '/includes',
         ),
         'HaydenPierce\\ClassFinder\\UnitTest\\' => 
         array (

@@ -3,7 +3,7 @@
         'name' => 'wordpress/multisitesharedmenu',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '50845a2d1eda56dd78ceb062ed6019904047262d',
+        'reference' => '6e935328368346adbb29b6c8ad99eb3fb06ff713',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'wordpress/multisitesharedmenu' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '50845a2d1eda56dd78ceb062ed6019904047262d',
+            'reference' => '6e935328368346adbb29b6c8ad99eb3fb06ff713',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
