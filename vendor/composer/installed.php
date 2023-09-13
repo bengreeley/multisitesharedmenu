@@ -3,22 +3,13 @@
         'name' => 'wordpress/multisitesharedmenu',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '6e935328368346adbb29b6c8ad99eb3fb06ff713',
+        'reference' => '7655fb79157110dcead713b46aeb8363ff24f899',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'haydenpierce/class-finder' => array(
-            'pretty_version' => '0.4.4',
-            'version' => '0.4.4.0',
-            'reference' => '94c602870ddf8d4fa2d67fb9bae637d88f9bd76e',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../haydenpierce/class-finder',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'squizlabs/php_codesniffer' => array(
             'pretty_version' => '3.7.2',
             'version' => '3.7.2.0',
@@ -31,7 +22,7 @@
         'wordpress/multisitesharedmenu' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6e935328368346adbb29b6c8ad99eb3fb06ff713',
+            'reference' => '7655fb79157110dcead713b46aeb8363ff24f899',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

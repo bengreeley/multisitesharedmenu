@@ -6,6 +6,7 @@
  * Version:           1.2
  * Author:            Ben Greeley
  * Author URI:        http://www.bengreeley.com
+ * Text Domain:       multisite-shared-menu
  **/
 
  /*  
@@ -23,6 +24,8 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+namespace MultisiteSharedMenuPlugin;
+
 // Useful global constants.
 define( 'MULTISITE_SHARED_MENU_PLUGIN_VERSION', '2.0' );
 define( 'MULTISITE_SHARED_MENU_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -33,26 +36,5 @@ define( 'MULTISITE_SHARED_MENU_PLUGIN_DIST_PATH', MULTISITE_SHARED_MENU_PLUGIN_P
 
 require_once MULTISITE_SHARED_MENU_PLUGIN_PATH . 'vendor/autoload.php';
 
-register_activation_hook( __FILE__, 'activate_menufromsite' );
-register_deactivation_hook( __FILE__, 'deactivate_menufromsite' );
+new MultisiteSharedMenu();
 
-// Activation code for plugin to create necessary fields, etc.
-function activate_menufromsite() {
-	require_once MULTISITE_SHARED_MENU_PLUGIN_INC . 'class-menufromsite-activator.php';
-	MultisiteSharedMenu_Activator::activate();
-}
-
-/**
- * Undocumented function
- *
- * @return void
- */
-function deactivate_menufromsite() {
-	require_once MULTISITE_SHARED_MENU_PLUGIN_INC . 'class-menufromsite-deactivator.php';
-	MultisiteSharedMenu_Deactivator::deactivate();
-}
-
-if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-	// Only run this menu if in multisite...
-	new MultisiteSharedMenu();
-}

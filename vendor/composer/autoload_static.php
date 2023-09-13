@@ -9,32 +9,20 @@ class ComposerStaticInitc4a016fead862bd35e25dc7707b61199
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
-            'MultisiteSharedMenu\\' => 20,
-        ),
-        'H' => 
-        array (
-            'HaydenPierce\\ClassFinder\\UnitTest\\' => 34,
-            'HaydenPierce\\ClassFinder\\' => 25,
+            'MultisiteSharedMenuPlugin\\' => 26,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'MultisiteSharedMenu\\' => 
+        'MultisiteSharedMenuPlugin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
-        ),
-        'HaydenPierce\\ClassFinder\\UnitTest\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/haydenpierce/class-finder/test/unit',
-        ),
-        'HaydenPierce\\ClassFinder\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/haydenpierce/class-finder/src',
         ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'MultisiteSharedMenuPlugin\\MultisiteSharedMenu' => __DIR__ . '/../..' . '/includes/MultisiteSharedMenu.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

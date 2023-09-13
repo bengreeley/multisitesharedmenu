@@ -1,11 +1,14 @@
 <?php
 
+namespace MultisiteSharedMenuPlugin;
+
 class MultisiteSharedMenu {
 	protected $loader;
 	protected $plugin_name;
 	protected $version;
 
 	public function __construct() {
+
 		$this->plugin_name = 'multisitesharedmenu';
 		$this->version = '1.2';
 
@@ -14,7 +17,10 @@ class MultisiteSharedMenu {
 	}
 
 	private function define_admin_hooks() {
-		$this->add_mfs_menu();
+		$admin_options = new AdminOptions();
+
+		register_activation_hook( __FILE__,  [ $this, 'activate_plugin' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'deactivate_plugin' ] );
 	}
 
 	private function define_public_hooks() {
@@ -75,10 +81,22 @@ class MultisiteSharedMenu {
 	public function get_version() {
 		return $this->version;
 	}
-	
-	// Includes file that will define menu settings page...
-	public function add_mfs_menu() {
-		require_once plugin_dir_path( __FILE__ ) . '../admin/class-menufromsite-admin-options.php';
+
+	public function activate_plugin() {
+		
+		if ( ! function_exists( 'is_multisite' ) ) {
+			add_action( 'admin_notices', function() { ?>
+				<div id="warning" class="updated fade">
+					<p><strong><?php esc_html__( 'Multisite Shared Menu requires WordPress multisite to be configured.', 'multisite-shared-menu' );?></strong></p>
+				</div><?php
+			} );
+			
+			return; 
+		}
+	}
+
+	public function deactivate_plugin() {
+		unregister_setting( 'menufromsite-group', 'mfs_override_menu_location' );
 	}
 
 }

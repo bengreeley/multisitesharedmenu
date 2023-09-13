@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'MultisiteSharedMenuPlugin\\MultisiteSharedMenu' => $baseDir . '/includes/MultisiteSharedMenu.php',
 );
