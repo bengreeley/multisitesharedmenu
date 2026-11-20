@@ -1,0 +1,16 @@
+{
+	"name": "multisitesharedmenu",
+	"private": true,
+	"description": "Dev tooling for the Multisite Shared Menu WordPress plugin (git hooks). Not used at runtime.",
+	"license": "GPL-2.0-only",
+	"engines": {
+		"node": ">=20.17"
+	},
+	"scripts": {
+		"prepare": "husky"
+	},
+	"devDependencies": {
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0"
+	}
+}

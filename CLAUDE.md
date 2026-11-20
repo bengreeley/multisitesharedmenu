@@ -19,10 +19,12 @@ Targets: PHP 8.1+, current WordPress, multisite only.
 <!-- Fill in as tooling is added. Do not invent commands that don't exist yet. -->
 - Lint: `composer lint` (PHPCS with WPCS + PHPCompatibilityWP, config in `phpcs.xml.dist`; run `composer install` first)
 - Fix lint: `composer lint:fix` (PHPCBF; exits non-zero when it fixed something)
+- Pre-commit hook: Husky + lint-staged, enabled by `npm install` (Node >= 20.17). Runs PHPCS on staged PHP files, or full `composer lint` when `phpcs.xml.dist`/`composer.*` change. Husky sets `core.hooksPath`, so hooks in `.git/hooks/` are ignored. `--no-verify` skips it, but CI still checks.
+- CI: `.github/workflows/lint.yml` runs `composer lint` and `php -l` on PHP 8.1, 8.2 and 8.3 for PRs to `master` and pushes to `master`.
 - Tests: `composer test` (TBD — PHPUnit integration tests via wp-env, multisite enabled)
 - Local env: `npx wp-env start` (TBD)
 
-Run lint and tests before saying any change is done. If they don't exist yet, say so rather than skipping silently.
+Run lint and tests before saying any change is done. If they don't exist yet, say so rather than skipping silently. For PRs, a passing CI run is part of done.
 
 ## Workflow
 
