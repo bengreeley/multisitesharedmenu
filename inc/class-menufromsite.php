@@ -39,7 +39,9 @@ class MasterSharedMenu {
 			if (isset( $menu_object )) {
 				if( $menu == $menu_object->theme_location ) {
 					$switchSite = get_blog_details($mfsSettings['sourceSiteID']);
-					switch_to_blog($switchSite->blog_id);
+					if( $switchSite ) {
+						switch_to_blog($switchSite->blog_id);
+					}
 				}
 			}
 		}

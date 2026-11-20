@@ -4,6 +4,7 @@
  * Plugin URI:        http://www.bengreeley.com/menufromsite
  * Description:       Allows users in a WordPress multisite network pull in a menu from another site in order to achieve a universal navigation or shared navigation without needing to manually recreate menus. Site is required to be installed on WordPress Multisite environment.
  * Version:           1.2
+ * Requires PHP:      8.1
  * Author:            Ben Greeley
  * Author URI:        http://www.bengreeley.com
  */
