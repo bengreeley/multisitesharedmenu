@@ -4,6 +4,7 @@ class MasterSharedMenu {
 	protected $loader;
 	protected $plugin_name;
 	protected $version;
+	protected $switched = false; // True while a shared menu is rendering from the source site.
 
 	public function __construct() {
 		$this->plugin_name = 'multisitesharedmenu';
@@ -23,9 +24,10 @@ class MasterSharedMenu {
 	}
 
 	// Checks if options set to switch menu. If so, switch to the appropriate site and change the menu to load the desired menu....
-	public function menuswitch_check( $a, $menu_object ) {
+	public function menuswitch_check( $output, $menu_object ) {
+		// Not configured: pass through so WordPress renders the site's own menu.
 		if( !( $mfsSettings = $this->validate_mfs_set() )) {
-			return false;
+			return $output;
 		}
 		
 		$navigation_affected = $mfsSettings['destinationMenuLocation'];
@@ -41,6 +43,8 @@ class MasterSharedMenu {
 					$switchSite = get_blog_details($mfsSettings['sourceSiteID']);
 					if( $switchSite ) {
 						switch_to_blog($switchSite->blog_id);
+						$this->switched = true;
+						break;
 					}
 				}
 			}
@@ -48,8 +52,14 @@ class MasterSharedMenu {
 		return;
 	}
 	
-	// Switch back to the current blog/site if plugin settings were used.
+	// Switch back to the current blog/site if this plugin switched for this menu.
+	// Uses a flag rather than the settings, which would be read from the source site here.
 	public function check_restore_blog_menu($items, $args) {
+		if( !$this->switched ) {
+			return $items;
+		}
+
+		$this->switched = false;
 		restore_current_blog();
 		return $items;
 	}
@@ -62,7 +72,8 @@ class MasterSharedMenu {
 
 		if(( 	!strlen( $sourceSiteID ) ||
 				empty( $destinationMenuLocation ) ||
-				!is_numeric ($sourceSiteID ))) {
+				!is_numeric ($sourceSiteID ) ||
+				(int) $sourceSiteID < 1 )) {
 					
 			return false;
 		}
