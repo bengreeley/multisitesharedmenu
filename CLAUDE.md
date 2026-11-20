@@ -17,8 +17,8 @@ Targets: PHP 8.1+, current WordPress, multisite only.
 ## Commands
 
 <!-- Fill in as tooling is added. Do not invent commands that don't exist yet. -->
-- Lint: `composer lint` (TBD — PHPCS with WPCS + PHPCompatibility)
-- Fix lint: `composer lint:fix` (TBD)
+- Lint: `composer lint` (PHPCS with WPCS + PHPCompatibilityWP, config in `phpcs.xml.dist`; run `composer install` first)
+- Fix lint: `composer lint:fix` (PHPCBF; exits non-zero when it fixed something)
 - Tests: `composer test` (TBD — PHPUnit integration tests via wp-env, multisite enabled)
 - Local env: `npx wp-env start` (TBD)
 

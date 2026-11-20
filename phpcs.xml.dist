@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<ruleset name="Multisite Shared Menu">
+	<description>WordPress Coding Standards and PHP 8.1+ compatibility for Multisite Shared Menu.</description>
+
+	<file>multisitesharedmenu.php</file>
+	<file>inc</file>
+	<file>admin</file>
+	<file>views</file>
+
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/specs/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg value="sp"/>
+
+	<config name="testVersion" value="8.1-"/>
+	<config name="minimum_wp_version" value="6.0"/>
+
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress">
+		<!-- Temporary: unescaped output on the options page is known issue #4. Remove this exclusion in that spec. -->
+		<exclude name="WordPress.Security.EscapeOutput"/>
+
+		<!-- Temporary: wp_get_sites() is known issue #3. Remove this exclusion in that spec. -->
+		<exclude name="WordPress.WP.DeprecatedFunctions.wp_get_sitesFound"/>
+
+		<!-- Permanent, by decision in spec 003: existing class file names are kept to avoid changing require paths. -->
+		<exclude name="WordPress.Files.FileName"/>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="menufromsite"/>
+				<element value="mastersharedmenu"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="multisitesharedmenu"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

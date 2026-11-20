@@ -1,0 +1,23 @@
+{
+	"name": "bengreeley/multisitesharedmenu",
+	"description": "Render a nav menu from another site on the same WordPress multisite network.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-only",
+	"require": {
+		"php": ">=8.1"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"wp-coding-standards/wpcs": "^3.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf"
+	}
+}
