@@ -1,0 +1,13 @@
+# Lint staged PHP with PHPCS via lint-staged (config: .lintstagedrc.mjs).
+# CI runs the same checks, so --no-verify only skips the local feedback.
+
+if [ ! -x node_modules/.bin/lint-staged ]; then
+	# Commits without PHP or lint-config changes don't need lint-staged.
+	if git diff --cached --name-only --diff-filter=ACMR | grep -Eq '\.php$|^phpcs\.xml\.dist$|^composer\.(json|lock)$'; then
+		echo "lint-staged not installed. Run \`npm install\`, then commit again." >&2
+		exit 1
+	fi
+	exit 0
+fi
+
+exec node_modules/.bin/lint-staged
