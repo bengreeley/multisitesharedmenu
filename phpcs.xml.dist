@@ -6,6 +6,7 @@
 	<file>inc</file>
 	<file>admin</file>
 	<file>views</file>
+	<file>tests/playground</file>
 
 	<exclude-pattern>/vendor/*</exclude-pattern>
 	<exclude-pattern>/specs/*</exclude-pattern>
