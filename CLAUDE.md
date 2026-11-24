@@ -19,10 +19,10 @@ Targets: PHP 8.1+, current WordPress, multisite only.
 <!-- Fill in as tooling is added. Do not invent commands that don't exist yet. -->
 - Lint: `composer lint` (PHPCS with WPCS + PHPCompatibilityWP, config in `phpcs.xml.dist`; run `composer install` first)
 - Fix lint: `composer lint:fix` (PHPCBF; exits non-zero when it fixed something)
-- Pre-commit hook: Husky + lint-staged, enabled by `npm install` (Node >= 20.17). Runs PHPCS on staged PHP files, or full `composer lint` when `phpcs.xml.dist`/`composer.*` change. Husky sets `core.hooksPath`, so hooks in `.git/hooks/` are ignored. `--no-verify` skips it, but CI still checks.
+- Pre-commit hook: Husky + lint-staged, enabled by `npm install` (Node >= 20.18). Runs PHPCS on staged PHP files, or full `composer lint` when `phpcs.xml.dist`/`composer.*` change. Husky sets `core.hooksPath`, so hooks in `.git/hooks/` are ignored. `--no-verify` skips it, but CI still checks.
 - CI: `.github/workflows/lint.yml` runs `composer lint` and `php -l` on PHP 8.1, 8.2 and 8.3 for PRs to `master` and pushes to `master`.
 - Tests: `composer test` (TBD — PHPUnit integration tests via wp-env, multisite enabled)
-- Local env: `npx wp-env start` (TBD)
+- Local env: `npm run playground` (WordPress Playground multisite on http://localhost, PHP 8.3 by default; `npm run playground -- --php=8.1`). Fresh each start; see `tests/playground/README.md`. Needs port 80.
 
 Run lint and tests before saying any change is done. If they don't exist yet, say so rather than skipping silently. For PRs, a passing CI run is part of done.
 
@@ -35,7 +35,7 @@ Each unit of work lives in `specs/NNN-short-slug/`. Work moves through these sta
 2. **Plan** → `approach.md`: technical approach plus dev notes (files you may touch, patterns to follow, what's off-limits). If the security flag is yes, add a `threat-model.md` section (STRIDE, only the parts this change affects).
    **Gate 2:** Ben approves the approach. For a trivial fix, put a short approach in `spec.md` and Ben checks it at PR review instead.
 3. **Build:** implement only inside the dev notes. If you need to touch something outside them, stop and say why — don't expand scope on your own. Write or update tests first where practical.
-4. **Review and verify** → `qa-plan.md`: how each acceptance criterion is checked (automated test or manual step in wp-env). Self-review the diff, run lint and tests, then open the PR using the template below.
+4. **Review and verify** → `qa-plan.md`: how each acceptance criterion is checked (automated test or manual step in the Playground QA environment, `npm run playground`). Self-review the diff, run lint and tests, then open the PR using the template below.
 5. **Release** (Gate 3): Ben approves. You draft the changelog entry and readme updates; versions in the plugin header, `readme.txt` Stable tag, and the class `$version` must match.
 
 Work that fails review goes back to Build on the same spec; if the acceptance criteria were wrong, back to Specify.

@@ -1,0 +1,34 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "/siteb/",
+	"steps": [
+		{
+			"step": "defineWpConfigConsts",
+			"method": "rewrite-wp-config",
+			"consts": {
+				"WP_DEBUG": true,
+				"WP_DEBUG_DISPLAY": false,
+				"WP_DEBUG_LOG": true,
+				"AUTOMATIC_UPDATER_DISABLED": true,
+				"WP_AUTO_UPDATE_CORE": false
+			}
+		},
+		{
+			"step": "enableMultisite"
+		},
+		{
+			"step": "installTheme",
+			"themeData": {
+				"resource": "wordpress.org/themes",
+				"slug": "twentytwentyone"
+			},
+			"options": {
+				"activate": false
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require '/wordpress/wp-load.php'; require '/wordpress/wp-content/plugins/multisitesharedmenu/tests/playground/setup.php';"
+		}
+	]
+}

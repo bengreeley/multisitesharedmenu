@@ -1,15 +1,18 @@
 {
 	"name": "multisitesharedmenu",
 	"private": true,
-	"description": "Dev tooling for the Multisite Shared Menu WordPress plugin (git hooks). Not used at runtime.",
+	"description": "Dev tooling for the Multisite Shared Menu WordPress plugin (git hooks, Playground QA environment). Not used at runtime.",
 	"license": "GPL-2.0-only",
 	"engines": {
-		"node": ">=20.17"
+		"node": ">=20.18"
 	},
 	"scripts": {
-		"prepare": "husky"
+		"prepare": "husky",
+		"preplayground": "node -e \"const fs=require('fs');fs.mkdirSync('tests/playground/logs',{recursive:true});fs.writeFileSync('tests/playground/logs/debug.log','')\"",
+		"playground": "wp-playground-cli server --blueprint=tests/playground/blueprint.json --mount=.:/wordpress/wp-content/plugins/multisitesharedmenu --mount=tests/playground/mu-plugins:/wordpress/wp-content/mu-plugins --mount=tests/playground/logs:/wordpress/wp-content/qa-logs --login --port=80 --site-url=http://localhost"
 	},
 	"devDependencies": {
+		"@wp-playground/cli": "^3.1.66",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.4.0"
 	}
