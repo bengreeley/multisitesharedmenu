@@ -1,6 +1,6 @@
 # CLAUDE.md — Multisite Shared Menu
 
-This repo uses spec-driven development: every change starts from an approved spec, you build from an approved approach, and Ben approves at each gate. You draft; Ben approves. Never treat your own review as an approval.
+This repo uses spec-driven development: every change starts from an approved spec, you build from an approved approach, and the engineer you are working with approves at each gate. You draft; the engineer approves. Never treat your own review as an approval.
 
 ## Project
 
@@ -28,15 +28,15 @@ Run lint and tests before saying any change is done. If they don't exist yet, sa
 
 ## Workflow
 
-Each unit of work lives in `specs/NNN-short-slug/`. Work moves through these stages; stop at each gate and wait for Ben.
+Each unit of work lives in `specs/NNN-short-slug/`. Work moves through these stages; stop at each gate and wait for the engineer.
 
 1. **Specify** → `spec.md`: problem, acceptance criteria, repro steps (bugs), out of scope, security flag (yes/no with reason).
-   **Gate 1:** Ben approves the spec. No approach or code until then.
+   **Gate 1:** The engineer approves the spec. No approach or code until then.
 2. **Plan** → `approach.md`: technical approach plus dev notes (files you may touch, patterns to follow, what's off-limits). If the security flag is yes, add a `threat-model.md` section (STRIDE, only the parts this change affects).
-   **Gate 2:** Ben approves the approach. For a trivial fix, put a short approach in `spec.md` and Ben checks it at PR review instead.
+   **Gate 2:** The engineer approves the approach. For a trivial fix, put a short approach in `spec.md` and the engineer checks it at PR review instead.
 3. **Build:** implement only inside the dev notes. If you need to touch something outside them, stop and say why — don't expand scope on your own. Write or update tests first where practical.
 4. **Review and verify** → `qa-plan.md`: how each acceptance criterion is checked (automated test or manual step in the Playground QA environment, `npm run playground`). Self-review the diff, run lint and tests, then open the PR using the template below.
-5. **Release** (Gate 3): Ben approves. You draft the changelog entry and readme updates; versions in the plugin header, `readme.txt` Stable tag, and the class `$version` must match.
+5. **Release** (Gate 3): The engineer approves. You draft the changelog entry and readme updates; versions in the plugin header, `readme.txt` Stable tag, and the class `$version` must match.
 
 Work that fails review goes back to Build on the same spec; if the acceptance criteria were wrong, back to Specify.
 
