@@ -38,15 +38,32 @@ Run 2026-11-23 on macOS with Node 22.22.2 and `@wp-playground/cli` 3.1.66 (WordP
 | --- | --- | --- |
 | Unconfigured | `LOCAL-B` ×3, probes `blog=3 switched=0` ×3 | Yes |
 | Settings page, unconfigured | Options: empty, 1, 2 (never 3) | Yes |
-| `?mfsqa_stack=1` unconfigured | `after_menu_blog=1 switched=1`, then `after_own_restore_blog=3 switched=0` | Yes |
+| `?mfsqa_stack=1` unconfigured | Superseded: the first probe didn't exercise the plugin's switch. See "Stack probe fix" below | — |
 | Saved via form: Site A + `primary` | `LOCAL-B` ×2 + `SHARED-FROM-A` ×1; settings show 2 selected, `primary` checked | Yes |
 | Legacy string `primary` (via `options.php`) | `LOCAL-B` ×2 + `SHARED-FROM-A` ×1; `primary` still checked | Yes |
 | Site A, no locations | `LOCAL-B` ×3 | Yes |
 | Site ID empty/`0` + `primary` | `LOCAL-B` ×3 | Yes |
-| `?mfsqa_stack=1` configured | Outer switch survived, restored to 3 | Yes |
+| `?mfsqa_stack=1` configured | Superseded: see "Stack probe fix" below | — |
 | Deactivate, then activate (plugins screen) | State confirmed inactive, then active | Yes |
 | Site A deleted (network admin) | `LOCAL-B` ×3, no warnings | Yes (spec 001 AC2) |
 | `debug.log` across all scenarios | Only WP core `wp_get_sites()` deprecations (known issue #3); nothing from plugin files | Yes |
+
+## Stack probe fix (after code review, 2026-11-23)
+
+`/code-review` found that the original `?mfsqa_stack=1` probe rendered a menu by **menu ID** after `switch_to_blog( 1 )`. The plugin matches on `theme_location`, so it never switched, and the "outer switch survived" results above (and in spec 002's QA plan) only showed that a menu the plugin didn't touch leaves the stack alone. The shared-location case was never tested.
+
+The probe now switches to the current blog (so B's settings still apply), renders `primary` and `footer` **by theme location**, and reports the blog and `ms_is_switched()` after each one. Run on PHP 8.3:
+
+| Code | Scenario | `primary` | `footer` | Result |
+| --- | --- | --- | --- | --- |
+| Current (`maintenance`) | Unconfigured | `LOCAL-B`, blog 3, switched=1 | `LOCAL-B`, blog 3, switched=1 | PASS: outer switch kept |
+| Current | Site A + `primary` (form) | `SHARED-FROM-A`, blog 3, switched=1 | `LOCAL-B`, blog 3, switched=1 | PASS: plugin switched to A and restored only its own switch |
+| Pre-fix `f73ae27` | Unconfigured | empty (menus suppressed) | empty | Bug reproduced (spec 002) |
+| Pre-fix `f73ae27` | Site A + `primary` | `SHARED-FROM-A`, blog 3, switched=1 | `LOCAL-B`, blog 3, **switched=0** | Bug reproduced: the unconditional restore after `footer` popped the outer switch |
+
+So the probe now passes on the fixed code and fails on the old code for the case it's meant to cover. `vendor/bin/phpcs tests/playground`: 0 errors, 0 warnings. Spec 002's `qa-plan.md` wasn't edited (AC9); this section is the correction.
+
+Not re-run: PHP 8.1 and the legacy-string location with the new probe. Neither changes which code paths the probe takes.
 
 ## Dependency audit
 

@@ -55,7 +55,7 @@ The file is emptied on every start. Expect one `wp_get_sites() is deprecated` li
 `mu-plugins/mfsqa-probe.php` is loaded on every site:
 
 - After each rendered menu, the page source has `<!--mfsqa blog=N switched=0|1-->`. On Site B this should always be `blog=3 switched=0`, because the plugin must not leave the page switched to another site.
-- <http://localhost/siteb/?mfsqa_stack=1> simulates another plugin wrapping a menu render in `switch_to_blog( 1 )`. Expect `after_menu_blog=1 switched=1`, which means the outer switch survived, then `after_own_restore_blog=3 switched=0`.
+- <http://localhost/siteb/?mfsqa_stack=1> simulates another plugin that calls `switch_to_blog()` and then renders the `primary` and `footer` menus by theme location. The outer switch goes to Site B itself, so the plugin's settings still apply and a shared location makes the plugin switch and restore inside it. After each `location=…` line, expect `after_menu_blog=3 switched=1`, which means the outer switch survived. `menu=` shows which menu rendered, e.g. `SHARED-FROM-A` for a shared location. The last line should be `after_own_restore_blog=3 switched=0`.
 
 ## Useful admin pages
 
